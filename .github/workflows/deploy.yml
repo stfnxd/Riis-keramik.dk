@@ -9,9 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # ---------------------------
+    # 1. Checkout code
+    # ---------------------------
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # ---------------------------
+    # 2. Setup SSH
+    # ---------------------------
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.7.0
       with:
@@ -23,7 +29,7 @@ jobs:
         ssh-keyscan -H 65.181.113.41 >> ~/.ssh/known_hosts
 
     # ---------------------------
-    # Deploy FULL Laravel project OUTSIDE public_html
+    # 3. Deploy Laravel source code (excluding vendor, node_modules, public, .env)
     # ---------------------------
     - name: Deploy Laravel source code
       run: |
@@ -33,10 +39,11 @@ jobs:
         --exclude "node_modules" \
         --exclude "vendor" \
         --exclude "public" \
+        --exclude ".env*" \
         ./ riiskera@65.181.113.41:/home/riiskera/laravel
 
     # ---------------------------
-    # Deploy ONLY the public folder INTO public_html
+    # 4. Deploy public folder (with built assets)
     # ---------------------------
     - name: Deploy public folder
       run: |
@@ -44,15 +51,26 @@ jobs:
         ./public/ riiskera@65.181.113.41:/home/riiskera/public_html
 
     # ---------------------------
-    # Install Composer ON cPanel server
+    # 5. Run post-deploy commands on server
     # ---------------------------
-    - name: Run composer install on server
+    - name: Post-deploy commands
       run: |
-        ssh riiskera@65.181.113.41 "cd ~/laravel && /usr/local/bin/composer install --no-dev --optimize-autoloader"
+        ssh riiskera@65.181.113.41 << 'EOF'
+          cd ~/laravel
+          # Install composer dependencies
+          /usr/local/bin/composer install --no-dev --optimize-autoloader
 
-    # ---------------------------
-    # Fix permissions
-    # ---------------------------
-    - name: Fix permissions
-      run: |
-        ssh riiskera@65.181.113.41 "chmod -R 775 ~/laravel/storage ~/laravel/bootstrap/cache"
+          # Fix permissions
+          chmod -R 775 storage bootstrap/cache
+
+          # Run migrations
+          php artisan migrate --force
+
+          # Link storage
+          php artisan storage:link
+
+          # Clear and cache config
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan config:cache
+        EOF
