@@ -12,7 +12,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (app()->environment('production')) {
+            $app->bind('path.public', function() {
+                return base_path('public_html');
+            });
+        }
     }
 
     /**
@@ -23,8 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $vite = $this->app->make(Vite::class);
 
         if (app()->environment('production')) {
-            $vite->useBuildDirectory(base_path('public_html/build')); // actual build folder
-            $vite->usePublicPath(base_path('public_html'));          // overrides the default "public"
+            $vite->useBuildDirectory('build'); // relative to public_path(), which is now public_html
         }
     }
 }
