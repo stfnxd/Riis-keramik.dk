@@ -29,7 +29,7 @@ jobs:
         ssh-keyscan -H 65.181.113.41 >> ~/.ssh/known_hosts
 
     # ---------------------------
-    # 3. Deploy Laravel source code (excluding vendor, node_modules, public, .env)
+    # 3. Deploy Laravel source (excluding public, vendor, node_modules, .env)
     # ---------------------------
     - name: Deploy Laravel source code
       run: |
@@ -43,7 +43,7 @@ jobs:
         ./ riiskera@65.181.113.41:/home/riiskera/laravel
 
     # ---------------------------
-    # 4. Deploy public folder (with built assets)
+    # 4. Deploy public folder into public_html
     # ---------------------------
     - name: Deploy public folder
       run: |
@@ -51,17 +51,19 @@ jobs:
         ./public/ riiskera@65.181.113.41:/home/riiskera/public_html
 
     # ---------------------------
-    # 5. Run post-deploy commands on server
+    # 5. Post-deploy commands (Composer, permissions, migrations, storage link, cache)
     # ---------------------------
-    - name: Post-deploy commands
+    - name: Post-deploy setup
       run: |
         ssh riiskera@65.181.113.41 << 'EOF'
           cd ~/laravel
+
           # Install composer dependencies
           /usr/local/bin/composer install --no-dev --optimize-autoloader
 
           # Fix permissions
           chmod -R 775 storage bootstrap/cache
+          chown -R riiskera:riiskera storage bootstrap/cache
 
           # Run migrations
           php artisan migrate --force
@@ -69,8 +71,10 @@ jobs:
           # Link storage
           php artisan storage:link
 
-          # Clear and cache config
+          # Clear and cache config, routes, and views
           php artisan config:clear
           php artisan cache:clear
+          php artisan route:clear
+          php artisan view:clear
           php artisan config:cache
         EOF
