@@ -1,4 +1,4 @@
-name: Deploy to cPanel via SSH
+name: Deploy Laravel to cPanel via SSH
 
 on:
   push:
@@ -22,11 +22,37 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -H 65.181.113.41 >> ~/.ssh/known_hosts
 
-    - name: Deploy via rsync
+    # ---------------------------
+    # Deploy FULL Laravel project OUTSIDE public_html
+    # ---------------------------
+    - name: Deploy Laravel source code
       run: |
-        rsync -avz --delete --progress --partial --compress-level=9 \
+        rsync -avz --delete --progress \
         --exclude ".git" \
         --exclude ".github" \
         --exclude "node_modules" \
         --exclude "vendor" \
-        ./ riiskera@65.181.113.41:/home/riiskera/public_html
+        --exclude "public" \
+        ./ riiskera@65.181.113.41:/home/riiskera/laravel
+
+    # ---------------------------
+    # Deploy ONLY the public folder INTO public_html
+    # ---------------------------
+    - name: Deploy public folder
+      run: |
+        rsync -avz --delete --progress \
+        ./public/ riiskera@65.181.113.41:/home/riiskera/public_html
+
+    # ---------------------------
+    # Install Composer ON cPanel server
+    # ---------------------------
+    - name: Run composer install on server
+      run: |
+        ssh riiskera@65.181.113.41 "cd ~/laravel && /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader"
+
+    # ---------------------------
+    # Fix permissions
+    # ---------------------------
+    - name: Fix permissions
+      run: |
+        ssh riiskera@65.181.113.41 "chmod -R 775 ~/laravel/storage ~/laravel/bootstrap/cache"
