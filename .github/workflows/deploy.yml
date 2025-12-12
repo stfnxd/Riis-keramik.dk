@@ -48,7 +48,7 @@ jobs:
     # ---------------------------
     - name: Run composer install on server
       run: |
-        ssh riiskera@65.181.113.41 "cd ~/laravel && /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader"
+        ssh riiskera@65.181.113.41 "cd ~/laravel && /usr/local/bin/composer install --no-dev --optimize-autoloader"
 
     # ---------------------------
     # Fix permissions
