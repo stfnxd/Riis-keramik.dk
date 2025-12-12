@@ -3,22 +3,20 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Only override public path on production
-        if ($this->app->environment('production')) {
-            $this->app->bind('path.public', function () {
-                return base_path('../public_html'); 
-            });
-        }
+        // Dynamically set the public path depending on environment
+        $this->app->bind('path.public', function() {
+            // Detect if we're on the server by checking an environment variable
+            return env('APP_PUBLIC_PATH', base_path('public'));
+        });
     }
 
     public function boot(): void
     {
-
+        //
     }
 }
