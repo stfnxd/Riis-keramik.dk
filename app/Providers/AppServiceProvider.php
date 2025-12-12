@@ -20,9 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       if (app()->environment('production')) {
-            $vite = $this->app->make(Vite::class);
-            $vite->useBuildDirectory(base_path('public_html/build'));
-    }
+        $vite = $this->app->make(Vite::class);
+
+        if (app()->environment('production')) {
+            $vite->useBuildDirectory(base_path('public_html/build')); // actual build folder
+            $vite->usePublicPath(base_path('public_html'));          // overrides the default "public"
+        }
     }
 }
