@@ -29,36 +29,27 @@ jobs:
         ssh-keyscan -H 65.181.113.41 >> ~/.ssh/known_hosts
 
     # ---------------------------
-    # 3. Deploy Laravel source (excluding public, vendor, node_modules, .env)
+    # 3. Deploy Laravel application (INCLUDING public)
     # ---------------------------
     - name: Deploy Laravel source code
       run: |
         rsync -avz --delete --progress \
-        --exclude ".git" \
-        --exclude ".github" \
-        --exclude "node_modules" \
-        --exclude "vendor" \
-        --exclude "public" \
-        --exclude ".env*" \
-        ./ riiskera@65.181.113.41:/home/riiskera/laravel
+          --exclude ".git" \
+          --exclude ".github" \
+          --exclude "node_modules" \
+          --exclude "vendor" \
+          --exclude ".env*" \
+          ./ riiskera@65.181.113.41:/home/riiskera/laravel
 
     # ---------------------------
-    # 4. Deploy public folder into public_html
-    # ---------------------------
-    - name: Deploy public folder
-      run: |
-        rsync -avz --delete --progress \
-        ./public/ riiskera@65.181.113.41:/home/riiskera/public_html
-
-    # ---------------------------
-    # 5. Post-deploy commands (Composer, permissions, migrations, storage link, cache)
+    # 4. Post-deploy commands
     # ---------------------------
     - name: Post-deploy setup
       run: |
         ssh riiskera@65.181.113.41 << 'EOF'
           cd ~/laravel
 
-          # Install composer dependencies
+          # Install PHP dependencies
           /usr/local/bin/composer install --no-dev --optimize-autoloader
 
           # Fix permissions
@@ -68,13 +59,12 @@ jobs:
           # Run migrations
           php artisan migrate --force
 
-          # Link storage
-          php artisan storage:link
+          # Storage symlink (safe if already exists)
+          php artisan storage:link || true
 
-          # Clear and cache config, routes, and views
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan route:clear
-          php artisan view:clear
+          # Clear & cache
+          php artisan optimize:clear
           php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
         EOF
