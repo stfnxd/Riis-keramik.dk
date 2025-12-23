@@ -18,12 +18,14 @@ class Product extends Model
         'featured',
         'availability_status',
         'image_path',
+        'gallery',
 
     ];
 
      protected $casts = [
         'featured' => 'boolean',
         'image_path' => 'array',
+        'gallery' => 'boolean',
     ];
 
     public function category()
