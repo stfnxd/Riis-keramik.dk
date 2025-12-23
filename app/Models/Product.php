@@ -18,12 +18,12 @@ class Product extends Model
         'featured',
         'availability_status',
         'image_path',
-        'gallery',
+
     ];
 
      protected $casts = [
         'featured' => 'boolean',
-        'gallery' => 'boolean',
+        'image_path' => 'array',
     ];
 
     public function category()
@@ -31,9 +31,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function getImageUrlAttribute(): ?string
+   public function getImageUrlAttribute(): ?string
     {
-        return $this->image_path ? asset('storage/' . $this->image_path) : null;
+        return isset($this->image_path[0])
+            ? asset('storage/' . $this->image_path[0])
+            : null;
     }
 
     protected static function booted()

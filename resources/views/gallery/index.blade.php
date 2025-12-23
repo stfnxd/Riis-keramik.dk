@@ -15,19 +15,18 @@
         @endforeach
     </div>
 
-
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-
         @foreach($products as $product)
             <a href="{{ route('shop.show', $product) }}" class="block group">
-                @if($product->image_path)
-                    <img src="{{ asset('storage/' . $product->image_path) }}"
-                         alt="{{ $product->name }}"
-                         class="w-full h-80 object-cover rounded-xl shadow group-hover:shadow-lg transition" />
+                @if($product->image_url)
+                    <img
+                        src="{{ $product->image_url }}"
+                        alt="{{ $product->name }}"
+                        class="w-full h-80 object-cover rounded-xl shadow group-hover:shadow-lg transition"
+                    />
                 @endif
             </a>
         @endforeach
-
     </div>
 
     @if($products->isEmpty())

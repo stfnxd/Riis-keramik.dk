@@ -14,27 +14,41 @@
         @endforeach
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        @foreach($products as $product)
-            @if($product->availability_status !== 'sold_out')
-                <a href="{{ route('shop.show', $product) }}" class="block bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
-                    @if($product->image_path)
-                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
-                    @endif
-                    <div class="p-4">
-                        <div class="flex justify-between items-center mb-1">
-                            <h2 class="text-lg font-semibold">{{ $product->name }}</h2>
-                            @if($product->featured)
-                                <span class="text-yellow-500 text-sm">★ Featured</span>
-                            @endif
-                        </div>
-                        <p class="text-sm text-gray-500">{{ $product->category->name ?? '' }}</p>
-                        <p class="text-xl font-bold mt-2">Dkk{{ number_format($product->price, 2) }}</p>
+   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    @foreach($products as $product)
+        @if($product->availability_status !== 'sold_out')
+            <a href="{{ route('shop.show', $product) }}"
+               class="block bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
+
+                @if($product->image_url)
+                    <img
+                        src="{{ $product->image_url }}"
+                        alt="{{ $product->name }}"
+                        class="w-full h-64 object-cover"
+                    >
+                @endif
+
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <h2 class="text-lg font-semibold">{{ $product->name }}</h2>
+
+                        @if($product->featured)
+                            <span class="text-yellow-500 text-sm">★ Featured</span>
+                        @endif
                     </div>
-                </a>
-            @endif
-        @endforeach
-    </div>
+
+                    <p class="text-sm text-gray-500">
+                        {{ $product->category->name ?? '' }}
+                    </p>
+
+                    <p class="text-xl font-bold mt-2">
+                        Dkk{{ number_format($product->price, 2) }}
+                    </p>
+                </div>
+            </a>
+        @endif
+    @endforeach
+</div>
 
     @if($products->isEmpty())
         <p class="text-center text-gray-500 mt-10">No products found.</p>

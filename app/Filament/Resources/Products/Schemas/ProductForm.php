@@ -22,10 +22,12 @@ class ProductForm
                     ->required(),
 
                 Components\FileUpload::make('image_path')
-                    ->label('Product Image')
+                    ->label('Product Images')
                     ->image()
+                    ->multiple()
                     ->disk('public')
                     ->directory('products')
+                    ->reorderable()
                     ->maxSize(2048)
                     ->imageEditor(),
 

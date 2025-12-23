@@ -5,6 +5,7 @@
     <title>{{ config('app.name', 'L-Riis Keramik') }}</title>
      <!-- Google Fonts link -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite('resources/css/app.css')
 
 </head>
