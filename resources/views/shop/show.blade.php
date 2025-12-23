@@ -102,7 +102,16 @@
                     {{ ucfirst(str_replace('_', ' ', $product->availability_status)) }}
                 </p>
             </div>
-
+            <div class="flex gap-3">
+                <p class="text-black-700 font-semibold text-lg mt-4">
+                    Ved interesse:
+                </p>
+            </div>
+            <div class="flex gap-3 mb-6">
+                <p class="text-black-700 font-semibold text-lg">
+                    ☎ +45 40 38 77 98
+                </p>
+            </div>
             <div class="flex gap-3">
                 <a
                     href="{{ route('shop.index') }}"
@@ -111,12 +120,7 @@
                     ← Tilbage til butikken
                 </a>
 
-                <a
-                    href="{{ route('shop.index') }}"
-                    class="inline-block px-5 py-3 rounded-md bg-green-700 text-white hover:bg-green-600"
-                >
-                    Kontakt for køb
-                </a>
+
             </div>
         </div>
 
