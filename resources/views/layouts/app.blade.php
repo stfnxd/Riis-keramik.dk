@@ -12,7 +12,7 @@
 <body class="bg-gray-100 text-gray-800 font-sans">
     <header class="bg-white shadow p-4 flex justify-between items-center">
         <!-- Left side: brand name -->
-        <a href="{{ route('shop.index') }}" class="text-2xl font-bold text-gray-900">Riis Keramik</a>
+        <a href="{{ route('shop.index') }}" class="text-2xl font-bold text-gray-900">Riis Keramik.</a>
 
         <!-- Right side: navigation buttons -->
         <nav class="space-x-4">
