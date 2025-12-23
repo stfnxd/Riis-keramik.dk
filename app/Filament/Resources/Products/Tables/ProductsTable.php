@@ -20,7 +20,12 @@ class ProductsTable
                     ->label('Image')
                     ->square()
                     ->getStateUsing(function ($record) {
-                        return $record->image_path ? asset('storage/' . $record->image_path) : null;
+                        // If image_path is an array and has at least one image
+                        if (is_array($record->image_path) && count($record->image_path) > 0) {
+                            return asset('storage/' . $record->image_path[0]);
+                        }
+
+                        return null;
                     }),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('category.name')->label('Category'),

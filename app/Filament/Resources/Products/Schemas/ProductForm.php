@@ -28,7 +28,7 @@ class ProductForm
                     ->disk('public')
                     ->directory('products')
                     ->reorderable()
-                    ->maxSize(2048)
+                    ->maxSize(8192)
                     ->imageEditor(),
 
                 Components\TextInput::make('price')
