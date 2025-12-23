@@ -39,6 +39,7 @@ jobs:
           --exclude "node_modules" \
           --exclude "vendor" \
           --exclude ".env*" \
+          --exclude "storage" \
           ./ riiskera@65.181.113.41:/home/riiskera/laravel
 
     # ---------------------------
