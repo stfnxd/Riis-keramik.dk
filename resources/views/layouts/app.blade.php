@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ config('app.name', 'L-Riis Keramik') }}</title>
+    <title>{{ config('app.name', 'Riis Keramik') }}</title>
      <!-- Google Fonts link -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -26,7 +26,7 @@
     </main>
 
     <footer class="text-center text-gray-500 text-sm py-4">
-        © {{ date('Y') }} LRiis Keramik
+        © {{ date('Y') }} Riis Keramik
     </footer>
 </body>
 </html>
