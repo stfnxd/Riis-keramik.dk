@@ -24,7 +24,7 @@ return new class extends Migration
         $table->boolean('featured')->default(false);
         $table->enum('availability_status', ['in_stock', 'made_to_order', 'sold_out'])
               ->default('in_stock');
-        $table->string('image_path')->nullable();
+        $table->json('image_path')->nullable()->change();
         $table->timestamps();
     });
 
