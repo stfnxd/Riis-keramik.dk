@@ -25,7 +25,7 @@
                     <img
                         src="{{ $product->image_url }}"
                         alt="{{ $product->name }}"
-                        class="w-full h-full object-cover rounded-2xl"
+                        class="w-full h-full object-cover rounded-2xl hover:shadow-lg"
                     >
                 </div>
             @endif
