@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-5xl mx-auto bg-white rounded-2xl shadow p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+<div class="max-w-5xl mx-auto bg-white rounded-2xl shadow p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 mt-1">
 
     {{-- IMAGE CAROUSEL --}}
     @php
@@ -55,18 +55,18 @@
 
             {{-- THUMBNAILS --}}
             @if(count($images) > 1)
-                <div class="flex gap-2 mt-3 justify-center items-center overflow-x-auto">
-                    <template x-for="(image, index) in visibleImages" :key="index">
-                        <div class="w-14 aspect-square">
-                            <img
-                                :src="'{{ asset('storage') }}/' + image"
-                                @click="active = startIndex + index"
-                                class="w-full h-full object-cover rounded cursor-pointer border-2"
-                                :class="active === startIndex + index ? 'border-gray-900' : 'border-transparent'"
-                            >
-                        </div>
-                    </template>
-                </div>
+              <div class="flex gap-1.5 sm:gap-2 mt-2 sm:mt-3 justify-center items-center overflow-x-auto">
+                <template x-for="(image, index) in visibleImages" :key="index">
+                    <div class="w-10 sm:w-12 md:w-14 aspect-square">
+                        <img
+                            :src="'{{ asset('storage') }}/' + image"
+                            @click="active = startIndex + index"
+                            class="w-full h-full object-cover rounded cursor-pointer border-2"
+                            :class="active === startIndex + index ? 'border-gray-900' : 'border-transparent'"
+                        >
+                    </div>
+                </template>
+            </div>
             @endif
         @endif
     </div>
