@@ -2,9 +2,15 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+
 use Filament\Schemas\Schema;
 use Filament\Forms\Components;
 use Filament\Schemas\Components\Fieldset;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
 
 class ProductForm
 {
@@ -29,7 +35,18 @@ class ProductForm
                     ->directory('products')
                     ->reorderable()
                     ->maxSize(8192)
-                    ->imageEditor(),
+                    ->imageEditor()
+                    ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) {
+                        $manager = new ImageManager(new Driver());
+                        $image = $manager->read($file->getPathname());
+                        $image->scaleDown(width: 1600);
+                        $encoded = $image->toWebp(80);
+                        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $path = 'products/' . $filename . '-' . uniqid() . '.webp';
+                        Storage::disk('public')->put($path, $encoded);
+                        return $path;
+                    }),
+
 
                 Components\TextInput::make('price')
                     ->numeric()

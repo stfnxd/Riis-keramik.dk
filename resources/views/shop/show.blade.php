@@ -27,12 +27,13 @@
                 ));
             }
         }"
-        class="relative"
+        class="relative w-full max-w-[600px] mx-auto"
+        style="aspect-ratio: 3 / 4;"
     >
 
         @if(count($images))
             {{-- MAIN IMAGE --}}
-            <div class="w-full aspect-[3/4] md:aspect-[4/3]">
+            <div class="w-full h-full">
                 <img
                     :src="'{{ asset('storage') }}/' + images[active]"
                     alt="{{ $product->name }}"
@@ -72,20 +73,22 @@
     </div>
 
     {{-- PRODUCT INFO --}}
-    <div>
-        <h1 class="text-2xl sm:text-3xl font-bold mb-2">{{ $product->name }}</h1>
-        <p class="text-gray-500 mb-4">{{ $product->category->name ?? '' }}</p>
-        <p class="text-xl sm:text-2xl font-semibold mb-4">
-            Dkk {{ number_format($product->price, 2) }}
-        </p>
+    <div class="flex flex-col justify-between">
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-bold mb-2">{{ $product->name }}</h1>
+            <p class="text-gray-500 mb-4">{{ $product->category->name ?? '' }}</p>
+            <p class="text-xl sm:text-2xl font-semibold mb-4">
+                Dkk {{ number_format($product->price, 2) }}
+            </p>
 
-        <p class="text-gray-700 mb-6">{{ $product->description }}</p>
+            <p class="text-gray-700 mb-6">{{ $product->description }}</p>
 
-        <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 mb-6">
-            <p><strong>Brede:</strong> {{ $product->width }} cm</p>
-            <p><strong>Højde:</strong> {{ $product->height }} cm</p>
-            <p><strong>Materiale:</strong> {{ $product->category->name }}</p>
-            <p><strong>Tilgængelighed:</strong> {{ ucfirst(str_replace('_', ' ', $product->availability_status)) }}</p>
+            <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 mb-6">
+                <p><strong>Brede:</strong> {{ $product->width }} cm</p>
+                <p><strong>Højde:</strong> {{ $product->height }} cm</p>
+                <p><strong>Materiale:</strong> {{ $product->category->name }}</p>
+                <p><strong>Tilgængelighed:</strong> {{ ucfirst(str_replace('_', ' ', $product->availability_status)) }}</p>
+            </div>
         </div>
 
         <div class="mb-6">

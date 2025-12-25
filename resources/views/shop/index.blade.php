@@ -24,11 +24,11 @@
                class="block bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition">
 
                 @if($product->image_url)
-                    <div class="w-full aspect-[3/4] sm:aspect-[4/3]">
+                    <div class="w-full aspect-[3/4]">
                         <img
                             src="{{ $product->image_url }}"
                             alt="{{ $product->name }}"
-                            class="w-full h-full object-cover"
+                            class="w-full h-full object-cover rounded-xl shadow group-hover:shadow-lg transition"
                         >
                     </div>
                 @endif

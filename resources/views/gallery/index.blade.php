@@ -21,11 +21,11 @@
     @foreach($products as $product)
         <a href="{{ route('shop.show', $product) }}" class="block group">
             @if($product->image_url)
-                <div class="w-full aspect-[3/4] sm:aspect-[1/1] lg:aspect-[4/3]">
+                <div class="w-full aspect-[3/4]">
                     <img
                         src="{{ $product->image_url }}"
                         alt="{{ $product->name }}"
-                        class="w-full h-full object-cover rounded-xl shadow group-hover:shadow-lg transition"
+                        class="w-full h-full object-cover"
                     >
                 </div>
             @endif
