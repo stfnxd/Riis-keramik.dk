@@ -3,7 +3,7 @@
 @section('content')
 <div class="mb-6 overflow-x-auto py-2">
     <div class="flex gap-3 flex-wrap sm:flex-nowrap justify-center">
-        <a href="{{ route('gallery.index') }}" 
+        <a href="{{ route('gallery.index') }}"
            class="px-4 py-2 rounded-full border {{ !$categoryFilter ? 'bg-gray-900 text-white' : 'bg-white hover:bg-gray-100' }}">
             All
         </a>
@@ -21,7 +21,13 @@
     @foreach($products as $product)
         <a href="{{ route('shop.show', $product) }}" class="block group">
             @if($product->image_url)
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow group-hover:shadow-lg transition">
+                <div class="w-full aspect-[3/4] sm:aspect-[1/1] lg:aspect-[4/3]">
+                    <img
+                        src="{{ $product->image_url }}"
+                        alt="{{ $product->name }}"
+                        class="w-full h-full object-cover rounded-xl shadow group-hover:shadow-lg transition"
+                    >
+                </div>
             @endif
         </a>
     @endforeach
