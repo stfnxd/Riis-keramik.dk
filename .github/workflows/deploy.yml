@@ -63,6 +63,9 @@ jobs:
           # Storage symlink (safe if already exists)
           php artisan storage:link || true
 
+          # Install PHP dependencies
+          /usr/local/bin/composer install --no-dev --optimize-autoloader
+
           # Clear & cache
           php artisan optimize:clear
           php artisan config:cache
