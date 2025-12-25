@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-2 md:px-0 rounded-2xl">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 px-2 md:px-0">
     @foreach($products as $product)
         <a href="{{ route('shop.show', $product) }}" class="block group">
             @if($product->image_url)
@@ -25,7 +25,7 @@
                     <img
                         src="{{ $product->image_url }}"
                         alt="{{ $product->name }}"
-                        class="w-full h-full object-cover"
+                        class="w-full h-full object-cover rounded-2xl"
                     >
                 </div>
             @endif
